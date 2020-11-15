@@ -8,6 +8,9 @@ class Timer {
     private var durantion: Long = 0
     private var startTime: LocalDateTime? = null
     private var stopTime: LocalDateTime? = null
+    private var nowPeriodTime: LocalDateTime? = null
+    private var currentPeriodEndTime: LocalDateTime? = null
+    private var currentPeriodStartTime: LocalDateTime? = null
 
     fun start() {
         running = true
@@ -24,22 +27,40 @@ class Timer {
     }
 
     fun getDuration(): Long {
-        durantion += getTimeDelta();
+        updateDuration()
         return durantion
     }
 
-    private fun getTimeDelta(): Long {
-        if (startTime == null) {
-            return 0
+    private fun updateDuration() {
+        stopCurrentPeriod()
+        durantion += Duration.between(currentPeriodStartTime, currentPeriodEndTime).toMillis()
+        startNewPeriod()
+    }
+
+    private fun stopCurrentPeriod() {
+        nowPeriodTime = LocalDateTime.now()
+        currentPeriodStartTime = getCurrentStartTime()
+        currentPeriodEndTime = getCurrentEndTime()
+    }
+
+    private fun startNewPeriod() {
+        startTime = currentPeriodEndTime
+        if (isRunning()) {
+            stopTime = null
         }
-        return Duration.between(startTime, getCurrentEndTime()).toMillis()
+    }
+
+    private fun getCurrentStartTime(): LocalDateTime? {
+        if (startTime == null) {
+            return nowPeriodTime
+        }
+        return startTime
     }
 
     private fun getCurrentEndTime(): LocalDateTime? {
-        var endTime = stopTime
         if (stopTime == null) {
-            endTime = LocalDateTime.now()
+            return nowPeriodTime
         }
-        return endTime
+        return stopTime
     }
 }

@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import timer.Timer
+import java.util.concurrent.TimeUnit
 import kotlin.test.*
 
 internal class TimerTest {
@@ -37,7 +38,7 @@ internal class TimerTest {
     @Test
     fun isTimeNot0_whenStarted() {
         timer.start()
-        Thread.sleep(1)
+        TimeUnit.MILLISECONDS.sleep(1)
         val duration = timer.getDuration()
         assertNotEquals(0, duration)
     }
@@ -47,7 +48,7 @@ internal class TimerTest {
         timer.start()
         timer.stop()
         val duration1 = timer.getDuration()
-        Thread.sleep(500)
+        TimeUnit.MILLISECONDS.sleep(1000)
         val duration2 = timer.getDuration()
         assertEquals(duration1, duration2)
     }
@@ -56,7 +57,7 @@ internal class TimerTest {
     fun isTimeNotEqual_whenStartedThenWaitThenStopped() {
         timer.start()
         val duration1 = timer.getDuration()
-        Thread.sleep(5)
+        TimeUnit.MILLISECONDS.sleep(5)
         timer.stop()
         val duration2 = timer.getDuration()
         assertNotEquals(duration1, duration2)
@@ -65,11 +66,11 @@ internal class TimerTest {
     @Test
     fun isTimeNotEqual_whenStartWaitStopWaitStartWaitStop() {
         timer.start()
-        Thread.sleep(5)
+        TimeUnit.MILLISECONDS.sleep(5)
         timer.stop()
         val duration1 = timer.getDuration()
         timer.start()
-        Thread.sleep(5)
+        TimeUnit.MILLISECONDS.sleep(5)
         timer.stop()
         val duration2 = timer.getDuration()
         assertNotEquals(duration1, duration2)
@@ -78,11 +79,11 @@ internal class TimerTest {
     @Test
     fun isDurationIncrease_whenStartWaitStopWaitStartWaitStop() {
         timer.start()
-        Thread.sleep(5)
+        TimeUnit.MILLISECONDS.sleep(5)
         timer.stop()
         val duration1 = timer.getDuration()
         timer.start()
-        Thread.sleep(5)
+        TimeUnit.MILLISECONDS.sleep(5)
         timer.stop()
         val duration2 = timer.getDuration()
         assertTrue { duration2 > duration1 }
