@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 class Timer {
     private var running = false
-    private var durantion: Long = 0
+    private var duration: Long = 0
     private var startTime: LocalDateTime? = null
     private var stopTime: LocalDateTime? = null
     private var nowPeriodTime: LocalDateTime? = null
@@ -28,12 +28,12 @@ class Timer {
 
     fun getDuration(): Long {
         updateDuration()
-        return durantion
+        return duration
     }
 
     private fun updateDuration() {
         stopCurrentPeriod()
-        durantion += Duration.between(currentPeriodStartTime, currentPeriodEndTime).toMillis()
+        duration += Duration.between(currentPeriodStartTime, currentPeriodEndTime).toMillis()
         startNewPeriod()
     }
 
